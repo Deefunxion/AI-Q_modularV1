@@ -899,51 +899,33 @@ class ScribbleSagaEnhancedModule extends ScribbleSagaModule {
      * Setup panel auto-hide and lock behavior
      */
     setupPanelBehavior(container) {
-        console.log('🔧 Setting up panel behavior...', container);
-        
         const lockBtn = container.querySelector('#panel-lock-btn');
         const closeBtn = container.querySelector('#panel-close-btn');
         
-        console.log('🔧 Found buttons:', { lockBtn, closeBtn });
-        
         // Lock/unlock functionality
         if (lockBtn) {
-            console.log('🔒 Setting up lock button...');
+            // Ensure button has visible content
+            if (!lockBtn.innerHTML.trim()) {
+                lockBtn.innerHTML = '⚙️';
+            }
             lockBtn.addEventListener('click', (e) => {
-                console.log('🔒 LOCK BUTTON CLICKED!');
                 e.preventDefault();
                 e.stopPropagation();
                 this.togglePanelLock();
             });
-        } else {
-            console.error('❌ Lock button not found!');
         }
         
         // Close panel
         if (closeBtn) {
-            console.log('✕ Setting up close button...');
             // Ensure button has visible content
             if (!closeBtn.innerHTML.trim()) {
-                console.log('⚠️ Close button is empty, adding fallback X');
                 closeBtn.innerHTML = '✕';
             }
             closeBtn.addEventListener('click', (e) => {
-                console.log('✕ CLOSE BUTTON CLICKED!');
                 e.preventDefault();
                 e.stopPropagation();
                 this.hidePanel();
             });
-        } else {
-            console.error('❌ Close button not found!');
-        }
-        
-        // Lock button
-        if (lockBtn) {
-            // Ensure button has visible content
-            if (!lockBtn.innerHTML.trim()) {
-                console.log('⚠️ Lock button is empty, adding fallback gear');
-                lockBtn.innerHTML = '⚙️';
-            }
         }
         
         // Auto-hide behavior
@@ -976,29 +958,22 @@ class ScribbleSagaEnhancedModule extends ScribbleSagaModule {
      * Toggle panel lock state
      */
     togglePanelLock() {
-        console.log('🔒 TOGGLING PANEL LOCK...');
         this.panelState.isLocked = !this.panelState.isLocked;
         
         const lockBtn = document.querySelector('#panel-lock-btn');
         const container = document.querySelector('.scribble-saga-enhanced-controls');
-        
-        console.log('🔒 Lock state:', this.panelState.isLocked, { lockBtn, container });
         
         if (this.panelState.isLocked) {
             if (lockBtn) lockBtn.innerHTML = this.iconManager.getIcon('ui', 'achievement') || '🔒';
             if (lockBtn) lockBtn.title = 'Panel Locked - Click to Unlock';
             if (container) container.classList.add('panel-locked');
             this.clearAutoHideTimer();
-            console.log('🔒 Panel LOCKED');
         } else {
             if (lockBtn) lockBtn.innerHTML = this.iconManager.getIcon('ui', 'settings') || '⚙️';
             if (lockBtn) lockBtn.title = 'Panel Unlocked - Click to Lock';
             if (container) container.classList.remove('panel-locked');
             this.startAutoHideTimer();
-            console.log('🔓 Panel UNLOCKED');
         }
-        
-        this.log(`🔒 Panel ${this.panelState.isLocked ? 'locked' : 'unlocked'}`);
     }
     
     /**
@@ -1027,16 +1002,12 @@ class ScribbleSagaEnhancedModule extends ScribbleSagaModule {
      * Hide the panel
      */
     hidePanel() {
-        console.log('🚫 HIDING PANEL...');
         const container = document.querySelector('.scribble-saga-enhanced-controls');
         
         if (container) {
-            console.log('✅ Found container, hiding it...');
-            container.style.display = 'none';
+            // Use CSS animation class instead of display: none
+            container.classList.add('panel-hidden');
             this.panelState.isVisible = false;
-            console.log('✅ Panel hidden successfully!');
-        } else {
-            console.error('❌ Container not found when trying to hide!');
         }
         
         // Show floating toggle button
@@ -1049,62 +1020,52 @@ class ScribbleSagaEnhancedModule extends ScribbleSagaModule {
         if (!floatingBtn) {
             floatingBtn = document.createElement('button');
             floatingBtn.id = 'floating-panel-toggle';
-            floatingBtn.innerHTML = this.iconManager.getIcon('ui', 'settings');
+            floatingBtn.innerHTML = this.iconManager.getIcon('ui', 'settings') || '🎨';
             floatingBtn.style.cssText = `
                 position: fixed;
                 top: 20px;
                 right: 20px;
-                width: 50px;
-                height: 50px;
-                background: var(--scribble-primary);
+                width: 56px;
+                height: 56px;
+                background: linear-gradient(135deg, #3b82f6, #1e40af);
                 border: none;
                 border-radius: 50%;
                 color: white;
-                font-size: 18px;
+                font-size: 20px;
                 cursor: pointer;
-                box-shadow: var(--scribble-shadow-lg);
+                box-shadow: 0 4px 16px rgba(59, 130, 246, 0.4);
                 z-index: 1001;
-                transition: var(--scribble-transition);
+                transition: all 0.3s ease;
+                display: none;
             `;
             floatingBtn.addEventListener('click', () => this.showPanel());
             document.body.appendChild(floatingBtn);
         }
-        floatingBtn.style.display = 'block';
+        floatingBtn.style.display = 'flex';
+        floatingBtn.style.alignItems = 'center';
+        floatingBtn.style.justifyContent = 'center';
     }
     
     /**
      * Show the panel
      */
     showPanel() {
-        console.log('👀 SHOWING PANEL...');
         const container = document.querySelector('.scribble-saga-enhanced-controls');
         const floatingBtn = document.querySelector('#floating-panel-toggle');
         
-        console.log('👀 Found elements:', { container, floatingBtn });
-        
         if (container) {
-            console.log('✅ Showing container...');
-            container.style.display = 'block';
+            // Use CSS animation class instead of display: block
+            container.classList.remove('panel-hidden');
             this.panelState.isVisible = true;
         }
         
         // Hide floating toggle button
         if (floatingBtn) {
-            floatingBtn.style.opacity = '0';
-            floatingBtn.style.pointerEvents = 'none';
-            console.log('✅ Hid floating button');
+            floatingBtn.style.display = 'none';
         }
         
-        if (container) {
-            container.classList.remove('panel-hidden');
-            
-            if (!this.panelState.isLocked) {
-                this.startAutoHideTimer();
-            }
-            
-            console.log('✅ Panel shown successfully!');
-        } else {
-            console.error('❌ Container not found when trying to show!');
+        if (container && !this.panelState.isLocked) {
+            this.startAutoHideTimer();
         }
     }
     
