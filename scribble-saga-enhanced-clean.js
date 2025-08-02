@@ -60,6 +60,14 @@ class ScribbleSagaEnhancedModule extends ScribbleSagaModule {
         controlsContainer.className = 'scribble-saga-enhanced-controls';
         controlsContainer.innerHTML = `
             <div class="creative-header">
+                <div class="panel-controls">
+                    <button id="panel-lock-btn" class="panel-lock-btn" title="Lock/Unlock Panel">
+                        ${this.iconManager.getIcon('ui', 'settings')}
+                    </button>
+                    <button id="panel-close-btn" class="panel-close-btn" title="Hide Panel">
+                        ${this.iconManager.getIcon('ui', 'close')}
+                    </button>
+                </div>
                 <div class="creative-level-badge">
                     ${this.creativeLevels[this.creativeLevel].icon || ''}
                     <div class="level-info">
@@ -163,7 +171,19 @@ class ScribbleSagaEnhancedModule extends ScribbleSagaModule {
         `;
 
         document.body.appendChild(controlsContainer);
+        
+        // Initialize panel state
+        this.panelState = {
+            isLocked: false,
+            isVisible: true,
+            autoHideTimer: null
+        };
+        
+        // Create floating toggle button
+        this.createFloatingToggleButton();
+        
         this.setupCreativeControlsEvents(controlsContainer);
+        this.setupPanelBehavior(controlsContainer);
     }
 
     /**
@@ -822,6 +842,222 @@ class ScribbleSagaEnhancedModule extends ScribbleSagaModule {
                 if (style.parentNode) style.remove();
             }, 500);
         }, 3000);
+    }
+
+    /**
+     * Create floating toggle button για να φέρεις πίσω το panel
+     */
+    createFloatingToggleButton() {
+        const toggleBtn = document.createElement('button');
+        toggleBtn.id = 'floating-panel-toggle';
+        toggleBtn.className = 'floating-panel-toggle hidden';
+        toggleBtn.innerHTML = this.iconManager.getIcon('ui', 'settings');
+        toggleBtn.title = 'Show Creative Panel';
+        
+        toggleBtn.style.cssText = `
+            position: fixed;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--scribble-primary), var(--scribble-secondary));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: var(--scribble-shadow-lg);
+            z-index: 1002;
+            transition: var(--scribble-transition);
+            opacity: 0;
+            pointer-events: none;
+        `;
+        
+        toggleBtn.addEventListener('click', () => {
+            this.showPanel();
+        });
+        
+        // Add hover effects
+        toggleBtn.addEventListener('mouseenter', () => {
+            toggleBtn.style.transform = 'translateY(-50%) scale(1.1)';
+            toggleBtn.style.boxShadow = 'var(--scribble-shadow-xl)';
+        });
+        
+        toggleBtn.addEventListener('mouseleave', () => {
+            toggleBtn.style.transform = 'translateY(-50%) scale(1)';
+            toggleBtn.style.boxShadow = 'var(--scribble-shadow-lg)';
+        });
+        
+        document.body.appendChild(toggleBtn);
+    }
+
+    /**
+     * Setup panel auto-hide and lock behavior
+     */
+    setupPanelBehavior(container) {
+        const lockBtn = container.querySelector('#panel-lock-btn');
+        const closeBtn = container.querySelector('#panel-close-btn');
+        
+        // Lock/unlock functionality
+        if (lockBtn) {
+            lockBtn.addEventListener('click', () => {
+                this.togglePanelLock();
+            });
+        }
+        
+        // Close panel
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                this.hidePanel();
+            });
+        }
+        
+        // Auto-hide behavior
+        container.addEventListener('mouseenter', () => {
+            this.clearAutoHideTimer();
+        });
+        
+        container.addEventListener('mouseleave', () => {
+            if (!this.panelState.isLocked) {
+                this.startAutoHideTimer();
+            }
+        });
+        
+        // Start initial auto-hide timer
+        this.startAutoHideTimer();
+    }
+    
+    /**
+     * Toggle panel lock state
+     */
+    togglePanelLock() {
+        this.panelState.isLocked = !this.panelState.isLocked;
+        
+        const lockBtn = document.querySelector('#panel-lock-btn');
+        const container = document.querySelector('.scribble-saga-enhanced-controls');
+        
+        if (this.panelState.isLocked) {
+            lockBtn.innerHTML = this.iconManager.getIcon('ui', 'achievement'); // Lock icon
+            lockBtn.title = 'Panel Locked - Click to Unlock';
+            container.classList.add('panel-locked');
+            this.clearAutoHideTimer();
+        } else {
+            lockBtn.innerHTML = this.iconManager.getIcon('ui', 'settings'); // Unlock icon
+            lockBtn.title = 'Panel Unlocked - Click to Lock';
+            container.classList.remove('panel-locked');
+            this.startAutoHideTimer();
+        }
+        
+        this.log(`🔒 Panel ${this.panelState.isLocked ? 'locked' : 'unlocked'}`);
+    }
+    
+    /**
+     * Start auto-hide timer
+     */
+    startAutoHideTimer() {
+        if (this.panelState.isLocked) return;
+        
+        this.clearAutoHideTimer();
+        this.panelState.autoHideTimer = setTimeout(() => {
+            this.hidePanel();
+        }, 2000);
+    }
+    
+    /**
+     * Clear auto-hide timer
+     */
+    clearAutoHideTimer() {
+        if (this.panelState.autoHideTimer) {
+            clearTimeout(this.panelState.autoHideTimer);
+            this.panelState.autoHideTimer = null;
+        }
+    }
+    
+    /**
+     * Hide the panel
+     */
+    hidePanel() {
+        const container = document.querySelector('.scribble-saga-enhanced-controls');
+        
+        if (container) {
+            container.style.display = 'none';
+            this.panelState.isVisible = false;
+        }
+        
+        // Show floating toggle button
+        this.showFloatingToggle();
+        this.clearAutoHideTimer();
+    }
+    
+    showFloatingToggle() {
+        let floatingBtn = document.querySelector('#floating-panel-toggle');
+        if (!floatingBtn) {
+            floatingBtn = document.createElement('button');
+            floatingBtn.id = 'floating-panel-toggle';
+            floatingBtn.innerHTML = this.iconManager.getIcon('ui', 'settings');
+            floatingBtn.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                background: var(--scribble-primary);
+                border: none;
+                border-radius: 50%;
+                color: white;
+                font-size: 18px;
+                cursor: pointer;
+                box-shadow: var(--scribble-shadow-lg);
+                z-index: 1001;
+                transition: var(--scribble-transition);
+            `;
+            floatingBtn.addEventListener('click', () => this.showPanel());
+            document.body.appendChild(floatingBtn);
+        }
+        floatingBtn.style.display = 'block';
+    }
+    
+    /**
+     * Show the panel
+     */
+    showPanel() {
+        const container = document.querySelector('.scribble-saga-enhanced-controls');
+        const floatingBtn = document.querySelector('#floating-panel-toggle');
+        
+        if (container) {
+            container.style.display = 'block';
+            this.panelState.isVisible = true;
+        }
+        
+        // Hide floating toggle button
+        if (floatingBtn) {
+            floatingBtn.style.opacity = '0';
+            floatingBtn.style.pointerEvents = 'none';
+        }
+        
+        if (container) {
+            container.classList.remove('panel-hidden');
+            this.panelState.isVisible = true;
+            
+            if (!this.panelState.isLocked) {
+                this.startAutoHideTimer();
+            }
+        }
+    }
+    
+    /**
+     * Toggle panel visibility
+     */
+    togglePanelVisibility() {
+        if (this.panelState.isVisible) {
+            this.hidePanel();
+        } else {
+            this.showPanel();
+        }
     }
 
     /**

@@ -97,6 +97,91 @@
     background: linear-gradient(135deg, var(--scribble-bg-secondary) 0%, var(--scribble-bg-tertiary) 100%);
     border-bottom: 1px solid var(--scribble-border);
     border-radius: var(--scribble-radius-lg) var(--scribble-radius-lg) 0 0;
+    position: relative;
+}
+
+/* Panel Controls */
+.panel-controls {
+    position: absolute;
+    top: var(--scribble-spacing-sm);
+    right: var(--scribble-spacing-sm);
+    display: flex;
+    gap: var(--scribble-spacing-xs);
+    z-index: 10;
+}
+
+.panel-lock-btn,
+.panel-close-btn {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--scribble-border);
+    background: var(--scribble-bg-primary);
+    border-radius: var(--scribble-radius-sm);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--scribble-transition);
+    font-size: 14px;
+    color: var(--scribble-text-muted);
+}
+
+.panel-lock-btn:hover,
+.panel-close-btn:hover {
+    background: var(--scribble-primary);
+    color: white;
+    border-color: var(--scribble-primary);
+    transform: translateY(-1px);
+}
+
+.panel-lock-btn.locked {
+    background: var(--scribble-success);
+    color: white;
+    border-color: var(--scribble-success);
+}
+
+/* Panel States */
+.scribble-saga-enhanced-controls {
+    transition: var(--scribble-transition), opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.scribble-saga-enhanced-controls.panel-hidden {
+    opacity: 0;
+    transform: translateX(100%);
+    pointer-events: none;
+}
+
+.scribble-saga-enhanced-controls.panel-locked {
+    box-shadow: 0 0 0 2px var(--scribble-success), var(--scribble-shadow-xl);
+}
+
+.scribble-saga-enhanced-controls.panel-locked .creative-header {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, var(--scribble-bg-tertiary) 100%);
+    border-bottom-color: var(--scribble-success);
+}
+
+/* Floating Toggle Button */
+.floating-panel-toggle {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.floating-panel-toggle:hover {
+    background: linear-gradient(135deg, var(--scribble-secondary), var(--scribble-primary)) !important;
+}
+
+.floating-panel-toggle.hidden {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Pulse animation for floating button */
+@keyframes pulse {
+    0%, 100% { transform: translateY(-50%) scale(1); }
+    50% { transform: translateY(-50%) scale(1.05); }
+}
+
+.floating-panel-toggle:not(:hover) {
+    animation: pulse 2s ease-in-out infinite;
 }
 
 .creative-level-badge {

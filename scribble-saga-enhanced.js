@@ -206,6 +206,11 @@ class ScribbleSagaEnhancedModule extends ScribbleSagaModule {
                         <span class="xp-text">${this.creativeXP} / ${this.getNextLevelXP()} XP</span>
                     </div>
                 </div>
+                <div class="panel-controls">
+                    <button class="panel-close-btn" title="Hide Panel">
+                        ${this.iconManager.getIcon('ui', 'close')}
+                    </button>
+                </div>
             </div>
             
             <div class="creative-tools-section">
@@ -579,6 +584,242 @@ class ScribbleSagaEnhancedModule extends ScribbleSagaModule {
         
         // Visual feedback με professional icon
         this.highlightPatternArea(pattern);
+    }
+
+    /**
+     * Set up event listeners for the enhanced creative controls
+     */
+    setupCreativeControlsEvents(controlsContainer) {
+        // Close button functionality
+        const closeBtn = controlsContainer.querySelector('.panel-close-btn');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                this.hideControlPanel();
+            });
+        }
+
+        // Tool buttons
+        const toolButtons = controlsContainer.querySelectorAll('.enhanced-tool-btn');
+        toolButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const toolName = e.currentTarget.dataset.tool;
+                if (toolName && !e.currentTarget.classList.contains('locked')) {
+                    this.selectTool(toolName);
+                    this.updateToolButtons();
+                }
+            });
+        });
+
+        // Effect buttons
+        const effectButtons = controlsContainer.querySelectorAll('.enhanced-effect-btn');
+        effectButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const effectName = e.currentTarget.dataset.effect;
+                if (effectName && !e.currentTarget.classList.contains('locked')) {
+                    this.selectEffect(effectName);
+                    this.updateEffectButtons();
+                }
+            });
+        });
+
+        // Settings controls
+        const colorInput = controlsContainer.querySelector('#creative-color');
+        if (colorInput) {
+            colorInput.addEventListener('change', (e) => {
+                this.settings.strokeColor = e.target.value;
+                this.updateDrawingSettings();
+            });
+        }
+
+        const widthInput = controlsContainer.querySelector('#creative-width');
+        if (widthInput) {
+            widthInput.addEventListener('input', (e) => {
+                this.settings.strokeWidth = parseInt(e.target.value);
+                this.updateDrawingSettings();
+            });
+        }
+
+        const opacityInput = controlsContainer.querySelector('#creative-opacity');
+        if (opacityInput) {
+            opacityInput.addEventListener('input', (e) => {
+                this.settings.opacity = parseFloat(e.target.value);
+                this.updateDrawingSettings();
+            });
+        }
+
+        // Action buttons
+        const savePatternBtn = controlsContainer.querySelector('#save-pattern');
+        if (savePatternBtn) {
+            savePatternBtn.addEventListener('click', () => {
+                this.saveCurrentPattern();
+            });
+        }
+
+        const clearCanvasBtn = controlsContainer.querySelector('#clear-canvas');
+        if (clearCanvasBtn) {
+            clearCanvasBtn.addEventListener('click', () => {
+                this.clearCanvas();
+            });
+        }
+
+        const patternLibraryBtn = controlsContainer.querySelector('#pattern-library');
+        if (patternLibraryBtn) {
+            patternLibraryBtn.addEventListener('click', () => {
+                this.showPatternLibrary();
+            });
+        }
+    }
+
+    /**
+     * Hide the control panel
+     */
+    hideControlPanel() {
+        const controlsContainer = document.querySelector('.scribble-saga-enhanced-controls');
+        if (controlsContainer) {
+            controlsContainer.style.display = 'none';
+            this.isControlPanelHidden = true;
+            
+            // Create a small show button
+            this.createShowPanelButton();
+        }
+    }
+
+    /**
+     * Show the control panel
+     */
+    showControlPanel() {
+        const controlsContainer = document.querySelector('.scribble-saga-enhanced-controls');
+        if (controlsContainer) {
+            controlsContainer.style.display = 'block';
+            this.isControlPanelHidden = false;
+            
+            // Remove show button if it exists
+            const showBtn = document.querySelector('.scribble-saga-show-panel-btn');
+            if (showBtn) {
+                showBtn.remove();
+            }
+        }
+    }
+
+    /**
+     * Create a button to show the hidden panel
+     */
+    createShowPanelButton() {
+        // Remove existing show button if any
+        const existingBtn = document.querySelector('.scribble-saga-show-panel-btn');
+        if (existingBtn) {
+            existingBtn.remove();
+        }
+
+        const showBtn = document.createElement('button');
+        showBtn.className = 'scribble-saga-show-panel-btn';
+        showBtn.innerHTML = `${this.iconManager.getIcon('ui', 'settings')}`;
+        showBtn.title = 'Show Scribble Saga Panel';
+        showBtn.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--scribble-primary);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: var(--scribble-shadow-lg);
+            z-index: 1001;
+            transition: var(--scribble-transition);
+        `;
+
+        showBtn.addEventListener('click', () => {
+            this.showControlPanel();
+        });
+
+        showBtn.addEventListener('mouseenter', () => {
+            showBtn.style.transform = 'scale(1.1)';
+        });
+
+        showBtn.addEventListener('mouseleave', () => {
+            showBtn.style.transform = 'scale(1)';
+        });
+
+        document.body.appendChild(showBtn);
+    }
+
+    /**
+     * Select a drawing tool
+     */
+    selectTool(toolName) {
+        this.settings.tool = toolName;
+        console.log(`🎨 Selected tool: ${toolName}`);
+    }
+
+    /**
+     * Update tool button states
+     */
+    updateToolButtons() {
+        const toolButtons = document.querySelectorAll('.enhanced-tool-btn');
+        toolButtons.forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.tool === this.settings.tool);
+        });
+    }
+
+    /**
+     * Select an effect
+     */
+    selectEffect(effectName) {
+        this.settings.effect = effectName;
+        console.log(`✨ Selected effect: ${effectName}`);
+    }
+
+    /**
+     * Update effect button states
+     */
+    updateEffectButtons() {
+        const effectButtons = document.querySelectorAll('.enhanced-effect-btn');
+        effectButtons.forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.effect === this.settings.effect);
+        });
+    }
+
+    /**
+     * Update drawing settings
+     */
+    updateDrawingSettings() {
+        // Apply settings to the drawing system
+        if (this.marginalia) {
+            Object.assign(this.marginalia.settings, this.settings);
+        }
+        console.log(`🎨 Updated drawing settings:`, this.settings);
+    }
+
+    /**
+     * Save current pattern
+     */
+    saveCurrentPattern() {
+        console.log('💾 Saving current pattern...');
+        // Implementation would save current drawing state
+    }
+
+    /**
+     * Clear canvas
+     */
+    clearCanvas() {
+        if (confirm('🗑️ Clear the canvas? This action cannot be undone.')) {
+            if (this.marginalia && this.marginalia.clearCanvas) {
+                this.marginalia.clearCanvas();
+            }
+            console.log('🗑️ Canvas cleared');
+        }
+    }
+
+    /**
+     * Show pattern library
+     */
+    showPatternLibrary() {
+        console.log('📚 Opening pattern library...');
+        // Implementation would show saved patterns
     }
 
     /**

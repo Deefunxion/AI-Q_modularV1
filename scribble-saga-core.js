@@ -645,6 +645,7 @@ class ScribbleSagaModule extends marginaliaModule {
      * Initialize intelligent capture system with surprise notifications
      */
     initializeIntelligentCapture() {
+        const parentContext = this;
         this.intelligentCapture = {
             captureThreshold: 0.75,
             lastSurpriseTime: 0,
@@ -709,8 +710,8 @@ class ScribbleSagaModule extends marginaliaModule {
                 }, 1000);
             },
             
-            captureToSketchbook(stroke, score, cognitiveFingerprint) {
-                const sketchbook = this.getSketchbook();
+            captureToSketchbook: (stroke, score, cognitiveFingerprint) => {
+                const sketchbook = parentContext.getSketchbook();
                 const captureId = `capture_${Date.now()}`;
                 
                 sketchbook.set(captureId, {
@@ -718,13 +719,13 @@ class ScribbleSagaModule extends marginaliaModule {
                     score: score,
                     cognitiveState: cognitiveFingerprint,
                     capturedAt: Date.now(),
-                    tags: this.generateTags(cognitiveFingerprint)
+                    tags: parentContext.intelligentCapture.generateTags(cognitiveFingerprint)
                 });
                 
-                this.saveSketchbook(sketchbook);
+                parentContext.saveSketchbook(sketchbook);
                 
                 // Show success message
-                this.showCaptureSuccess(captureId, cognitiveFingerprint);
+                parentContext.intelligentCapture.showCaptureSuccess(captureId, cognitiveFingerprint);
                 
                 console.log(`📚 Captured drawing to sketchbook:`, captureId);
             },
