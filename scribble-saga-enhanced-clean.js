@@ -62,10 +62,10 @@ class ScribbleSagaEnhancedModule extends ScribbleSagaModule {
             <div class="creative-header">
                 <div class="panel-controls">
                     <button id="panel-lock-btn" class="panel-lock-btn" title="Lock/Unlock Panel">
-                        ${this.iconManager.getIcon('ui', 'settings')}
+                        ${this.iconManager.getIcon('ui', 'settings') || '🔒'}
                     </button>
                     <button id="panel-close-btn" class="panel-close-btn" title="Hide Panel">
-                        ${this.iconManager.getIcon('ui', 'close')}
+                        ${this.iconManager.getIcon('ui', 'close') || '✕'}
                     </button>
                 </div>
                 <div class="creative-level-badge">
@@ -924,6 +924,17 @@ class ScribbleSagaEnhancedModule extends ScribbleSagaModule {
         container.addEventListener('mouseleave', () => {
             if (!this.panelState.isLocked) {
                 this.startAutoHideTimer();
+            }
+        });
+        
+        // FIX: Mobile tap-outside-to-close behavior
+        document.addEventListener('click', (e) => {
+            const isMobile = window.innerWidth <= 768;
+            if (isMobile && this.panelState.isVisible && !this.panelState.isLocked) {
+                const panel = document.querySelector('.scribble-saga-enhanced-controls');
+                if (panel && !panel.contains(e.target)) {
+                    this.hidePanel();
+                }
             }
         });
         
