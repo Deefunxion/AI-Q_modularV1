@@ -1,0 +1,817 @@
+/**
+ * Scribble Saga Enhanced CSS - AI Orchestrator's Ascent
+ * 
+ * Professional styling για τα FontAwesome icons και enhanced UI
+ * Consistent με το modular architecture design system
+ */
+
+/* === SCRIBBLE SAGA ENHANCED VARIABLES === */
+:root {
+    /* Scribble Saga Color Palette */
+    --scribble-primary: #3b82f6;
+    --scribble-secondary: #1e40af;
+    --scribble-success: #22c55e;
+    --scribble-warning: #f59e0b;
+    --scribble-error: #ef4444;
+    --scribble-accent: #7c3aed;
+    
+    /* Creative Level Colors */
+    --creative-level-0: #6b7280;
+    --creative-level-1: #3b82f6;
+    --creative-level-2: #059669;
+    --creative-level-3: #7c3aed;
+    --creative-level-4: #dc2626;
+    
+    /* Enhanced UI Colors */
+    --scribble-bg-primary: #ffffff;
+    --scribble-bg-secondary: #f8fafc;
+    --scribble-bg-tertiary: #f1f5f9;
+    --scribble-border: #e2e8f0;
+    --scribble-text: #1e293b;
+    --scribble-text-muted: #64748b;
+    
+    /* Spacing & Layout */
+    --scribble-spacing-xs: 0.25rem;
+    --scribble-spacing-sm: 0.5rem;
+    --scribble-spacing-md: 1rem;
+    --scribble-spacing-lg: 1.5rem;
+    --scribble-spacing-xl: 2rem;
+    
+    /* Border Radius */
+    --scribble-radius-sm: 0.25rem;
+    --scribble-radius-md: 0.5rem;
+    --scribble-radius-lg: 0.75rem;
+    --scribble-radius-xl: 1rem;
+    
+    /* Shadows */
+    --scribble-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --scribble-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --scribble-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    --scribble-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+    
+    /* Transitions */
+    --scribble-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --scribble-transition-fast: all 0.15s ease-in-out;
+}
+
+/* === MAIN CONTROLS CONTAINER === */
+.scribble-saga-enhanced-controls {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 340px;
+    max-height: calc(100vh - 40px);
+    background: var(--scribble-bg-primary);
+    border: 1px solid var(--scribble-border);
+    border-radius: var(--scribble-radius-lg);
+    box-shadow: var(--scribble-shadow-xl);
+    overflow-y: auto;
+    z-index: 1000;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 14px;
+    color: var(--scribble-text);
+}
+
+/* Custom scrollbar */
+.scribble-saga-enhanced-controls::-webkit-scrollbar {
+    width: 6px;
+}
+
+.scribble-saga-enhanced-controls::-webkit-scrollbar-track {
+    background: var(--scribble-bg-tertiary);
+    border-radius: var(--scribble-radius-sm);
+}
+
+.scribble-saga-enhanced-controls::-webkit-scrollbar-thumb {
+    background: var(--scribble-border);
+    border-radius: var(--scribble-radius-sm);
+}
+
+.scribble-saga-enhanced-controls::-webkit-scrollbar-thumb:hover {
+    background: var(--scribble-text-muted);
+}
+
+/* === CREATIVE HEADER === */
+.creative-header {
+    padding: var(--scribble-spacing-lg);
+    background: linear-gradient(135deg, var(--scribble-bg-secondary) 0%, var(--scribble-bg-tertiary) 100%);
+    border-bottom: 1px solid var(--scribble-border);
+    border-radius: var(--scribble-radius-lg) var(--scribble-radius-lg) 0 0;
+}
+
+.creative-level-badge {
+    display: flex;
+    align-items: center;
+    gap: var(--scribble-spacing-md);
+    margin-bottom: var(--scribble-spacing-md);
+}
+
+.creative-level-badge i {
+    font-size: 24px;
+    color: var(--scribble-saga-primary-color, var(--scribble-primary));
+}
+
+.level-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.level-number {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--scribble-saga-primary-color, var(--scribble-primary));
+}
+
+.level-name {
+    font-size: 12px;
+    color: var(--scribble-text-muted);
+    font-weight: 500;
+}
+
+/* === XP PROGRESS BAR === */
+.creative-xp-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--scribble-spacing-sm);
+}
+
+.xp-icon i {
+    font-size: 16px;
+    color: var(--scribble-warning);
+}
+
+.xp-progress {
+    flex: 1;
+    position: relative;
+    height: 20px;
+    background: var(--scribble-bg-tertiary);
+    border-radius: var(--scribble-radius-md);
+    overflow: hidden;
+}
+
+.xp-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--scribble-warning) 0%, var(--scribble-success) 100%);
+    border-radius: var(--scribble-radius-md);
+    transition: var(--scribble-transition);
+}
+
+.xp-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--scribble-text);
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+/* === SECTION STYLING === */
+.creative-tools-section,
+.creative-effects-section,
+.creative-settings-section,
+.creative-actions-section,
+.creative-stats-section,
+.creative-achievements-section {
+    padding: var(--scribble-spacing-lg);
+    border-bottom: 1px solid var(--scribble-border);
+}
+
+.creative-achievements-section:last-child {
+    border-bottom: none;
+}
+
+/* Section headers */
+.scribble-saga-enhanced-controls h4 {
+    display: flex;
+    align-items: center;
+    gap: var(--scribble-spacing-sm);
+    margin: 0 0 var(--scribble-spacing-md) 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--scribble-text);
+}
+
+.scribble-saga-enhanced-controls h4 i {
+    font-size: 16px;
+    color: var(--scribble-primary);
+}
+
+/* === ENHANCED TOOL BUTTONS === */
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--scribble-spacing-sm);
+}
+
+.enhanced-tool-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--scribble-spacing-md);
+    background: var(--scribble-bg-secondary);
+    border: 2px solid var(--scribble-border);
+    border-radius: var(--scribble-radius-md);
+    cursor: pointer;
+    transition: var(--scribble-transition);
+    position: relative;
+    min-height: 60px;
+}
+
+.enhanced-tool-btn:hover:not(.locked) {
+    background: var(--scribble-bg-tertiary);
+    border-color: var(--scribble-primary);
+    transform: translateY(-1px);
+    box-shadow: var(--scribble-shadow-md);
+}
+
+.enhanced-tool-btn.active {
+    background: var(--scribble-primary);
+    border-color: var(--scribble-primary);
+    color: white;
+}
+
+.enhanced-tool-btn.locked {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: var(--scribble-bg-tertiary);
+}
+
+.enhanced-tool-btn i {
+    font-size: 20px;
+    margin-bottom: var(--scribble-spacing-xs);
+    color: inherit;
+}
+
+.tool-name {
+    font-size: 11px;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.lock-indicator {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    font-size: 10px;
+}
+
+/* === ENHANCED EFFECT BUTTONS === */
+.effects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--scribble-spacing-sm);
+}
+
+.enhanced-effect-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--scribble-spacing-sm);
+    background: var(--scribble-bg-secondary);
+    border: 1px solid var(--scribble-border);
+    border-radius: var(--scribble-radius-sm);
+    cursor: pointer;
+    transition: var(--scribble-transition);
+    min-height: 50px;
+}
+
+.enhanced-effect-btn:hover {
+    background: var(--scribble-bg-tertiary);
+    border-color: var(--scribble-accent);
+}
+
+.enhanced-effect-btn.active {
+    background: var(--scribble-accent);
+    border-color: var(--scribble-accent);
+    color: white;
+}
+
+.enhanced-effect-btn i {
+    font-size: 16px;
+    margin-bottom: var(--scribble-spacing-xs);
+}
+
+.effect-name {
+    font-size: 10px;
+    font-weight: 500;
+    text-align: center;
+}
+
+/* === SETTINGS GRID === */
+.settings-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--scribble-spacing-md);
+}
+
+.setting-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--scribble-spacing-md);
+}
+
+.setting-item label {
+    display: flex;
+    align-items: center;
+    gap: var(--scribble-spacing-xs);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--scribble-text-muted);
+}
+
+.setting-item input[type="color"] {
+    width: 40px;
+    height: 30px;
+    border: 1px solid var(--scribble-border);
+    border-radius: var(--scribble-radius-sm);
+    cursor: pointer;
+}
+
+.setting-item input[type="range"] {
+    flex: 1;
+    min-width: 100px;
+}
+
+/* === ACTION BUTTONS === */
+.btn-creative {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--scribble-spacing-xs);
+    width: 100%;
+    padding: var(--scribble-spacing-md);
+    margin-bottom: var(--scribble-spacing-sm);
+    background: var(--scribble-primary);
+    color: white;
+    border: none;
+    border-radius: var(--scribble-radius-md);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--scribble-transition);
+}
+
+.btn-creative:hover {
+    background: var(--scribble-secondary);
+    transform: translateY(-1px);
+    box-shadow: var(--scribble-shadow-md);
+}
+
+.btn-creative:last-child {
+    margin-bottom: 0;
+}
+
+.btn-creative i {
+    font-size: 14px;
+}
+
+/* === STATS GRID === */
+.stats-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--scribble-spacing-sm);
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: var(--scribble-spacing-sm);
+    padding: var(--scribble-spacing-sm);
+    background: var(--scribble-bg-secondary);
+    border-radius: var(--scribble-radius-sm);
+}
+
+.stat-item i {
+    font-size: 14px;
+    color: var(--scribble-primary);
+    width: 16px;
+    text-align: center;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: var(--scribble-text-muted);
+    flex: 1;
+}
+
+.stat-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--scribble-text);
+}
+
+/* === CREATIVE SPARKS === */
+.creative-sparks-section {
+    padding: var(--scribble-spacing-lg);
+    border-bottom: 1px solid var(--scribble-border);
+}
+
+.sparks-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--scribble-spacing-sm);
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.spark-item {
+    background: var(--scribble-bg-secondary);
+    border: 1px solid var(--scribble-border);
+    border-radius: var(--scribble-radius-sm);
+    padding: var(--scribble-spacing-md);
+    transition: var(--scribble-transition);
+}
+
+.spark-item:hover {
+    background: var(--scribble-bg-tertiary);
+    border-color: var(--scribble-primary);
+    transform: translateY(-1px);
+    box-shadow: var(--scribble-shadow-md);
+}
+
+.spark-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--scribble-spacing-sm);
+}
+
+.spark-title {
+    display: flex;
+    align-items: center;
+    gap: var(--scribble-spacing-xs);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--scribble-text);
+}
+
+.spark-title i {
+    font-size: 14px;
+    color: var(--scribble-accent);
+}
+
+.spark-difficulty {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.spark-description {
+    font-size: 12px;
+    color: var(--scribble-text-muted);
+    line-height: 1.4;
+    margin-bottom: var(--scribble-spacing-sm);
+}
+
+.spark-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.spark-xp {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--scribble-warning);
+    background: rgba(245, 158, 11, 0.1);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--scribble-radius-sm);
+}
+
+.spark-try-btn {
+    background: var(--scribble-accent);
+    color: white;
+    border: none;
+    border-radius: var(--scribble-radius-sm);
+    padding: 0.25rem 0.75rem;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--scribble-transition);
+}
+
+.spark-try-btn:hover {
+    background: var(--scribble-primary);
+    transform: translateY(-1px);
+}
+
+/* Spark item states */
+.spark-item[data-completed="true"] {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.1));
+    border-color: var(--scribble-success);
+}
+
+.spark-item[data-attempted="true"] {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.1));
+    border-color: var(--scribble-warning);
+}
+
+/* === ACHIEVEMENTS === */
+.achievements-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--scribble-spacing-sm);
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.achievement-item {
+    display: flex;
+    align-items: center;
+    gap: var(--scribble-spacing-sm);
+    padding: var(--scribble-spacing-sm);
+    background: var(--scribble-bg-secondary);
+    border: 1px solid var(--scribble-border);
+    border-radius: var(--scribble-radius-sm);
+    transition: var(--scribble-transition);
+}
+
+.achievement-item.new-achievement {
+    background: linear-gradient(135deg, var(--scribble-success), var(--scribble-warning));
+    color: white;
+    animation: achievementPulse 2s ease-in-out;
+}
+
+.achievement-item i {
+    font-size: 16px;
+    color: var(--scribble-warning);
+    width: 20px;
+    text-align: center;
+}
+
+.achievement-item.new-achievement i {
+    color: white;
+}
+
+.achievement-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.achievement-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: inherit;
+}
+
+.achievement-description {
+    font-size: 11px;
+    color: var(--scribble-text-muted);
+    line-height: 1.3;
+}
+
+.achievement-item.new-achievement .achievement-description {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.achievement-time {
+    font-size: 10px;
+    color: var(--scribble-text-muted);
+    font-weight: 500;
+}
+
+.achievement-item.new-achievement .achievement-time {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* === LEVEL UP NOTIFICATION === */
+.scribble-saga-enhanced-level-up-notification {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    animation: notificationFadeIn 0.5s ease-out;
+}
+
+.level-up-content {
+    background: var(--scribble-bg-primary);
+    border-radius: var(--scribble-radius-xl);
+    padding: var(--scribble-spacing-xl);
+    max-width: 500px;
+    width: 90%;
+    box-shadow: var(--scribble-shadow-xl);
+    text-align: center;
+    position: relative;
+}
+
+.level-up-header {
+    margin-bottom: var(--scribble-spacing-lg);
+}
+
+.level-up-star {
+    font-size: 48px;
+    color: var(--scribble-warning);
+    animation: starSpin 2s ease-in-out infinite;
+}
+
+.level-up-content h2 {
+    margin: var(--scribble-spacing-md) 0 0 0;
+    font-size: 24px;
+    color: var(--scribble-text);
+}
+
+.level-progression {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--scribble-spacing-lg);
+    margin: var(--scribble-spacing-lg) 0;
+}
+
+.old-level, .new-level {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--scribble-spacing-sm);
+}
+
+.old-level i, .new-level i {
+    font-size: 32px;
+}
+
+.arrow i {
+    font-size: 24px;
+    color: var(--scribble-primary);
+}
+
+.level-details {
+    margin: var(--scribble-spacing-lg) 0;
+}
+
+.level-details h3 {
+    margin: 0 0 var(--scribble-spacing-sm) 0;
+    font-size: 20px;
+    color: var(--scribble-text);
+}
+
+.level-details p {
+    margin: 0;
+    color: var(--scribble-text-muted);
+    line-height: 1.5;
+}
+
+.new-unlocks h4 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--scribble-spacing-sm);
+    margin: var(--scribble-spacing-lg) 0 var(--scribble-spacing-md) 0;
+    font-size: 16px;
+}
+
+.unlocks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--scribble-spacing-sm);
+    margin-bottom: var(--scribble-spacing-lg);
+}
+
+.unlock-item {
+    display: flex;
+    align-items: center;
+    gap: var(--scribble-spacing-sm);
+    padding: var(--scribble-spacing-sm);
+    background: var(--scribble-bg-secondary);
+    border-radius: var(--scribble-radius-sm);
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.continue-btn {
+    padding: var(--scribble-spacing-md) var(--scribble-spacing-xl);
+    background: var(--scribble-primary);
+    color: white;
+    border: none;
+    border-radius: var(--scribble-radius-md);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--scribble-transition);
+}
+
+.continue-btn:hover {
+    background: var(--scribble-secondary);
+    transform: translateY(-1px);
+}
+
+/* === ANIMATIONS === */
+@keyframes achievementPulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 var(--scribble-success); }
+    50% { transform: scale(1.05); box-shadow: 0 0 0 10px transparent; }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 transparent; }
+}
+
+@keyframes starSpin {
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.1); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+
+@keyframes notificationFadeIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.fade-out {
+    animation: fadeOut 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: scale(1); }
+    to { opacity: 0; transform: scale(0.8); }
+}
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 768px) {
+    .scribble-saga-enhanced-controls {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        width: auto;
+        max-height: calc(100vh - 20px);
+    }
+    
+    .tools-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .effects-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .level-up-content {
+        padding: var(--scribble-spacing-lg);
+        width: 95%;
+    }
+    
+    .level-progression {
+        flex-direction: column;
+        gap: var(--scribble-spacing-md);
+    }
+    
+    .unlocks-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* === CREATIVE LEVEL STYLING === */
+.creative-level-0 {
+    --scribble-saga-primary-color: var(--creative-level-0);
+}
+
+.creative-level-1 {
+    --scribble-saga-primary-color: var(--creative-level-1);
+}
+
+.creative-level-2 {
+    --scribble-saga-primary-color: var(--creative-level-2);
+}
+
+.creative-level-3 {
+    --scribble-saga-primary-color: var(--creative-level-3);
+}
+
+.creative-level-4 {
+    --scribble-saga-primary-color: var(--creative-level-4);
+}
+
+/* === INTEGRATION με EXISTING MARGINALIA === */
+.scribble-saga-enhanced-controls + .marginalia-controls {
+    display: none; /* Hide old controls when enhanced version is active */
+}
+
+/* === ACCESSIBILITY === */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .scribble-saga-enhanced-controls {
+        border: 2px solid var(--scribble-text);
+    }
+    
+    .enhanced-tool-btn,
+    .enhanced-effect-btn {
+        border-width: 2px;
+    }
+}

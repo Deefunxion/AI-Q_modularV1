@@ -1,0 +1,630 @@
+╭───────────────────────────────────────────────────╮
+│ ✻ Welcome to Claude Code!                         │
+│                                                   │
+│   /help for help, /status for your current setup  │
+│                                                   │
+│   cwd: C:\Users\dee\Desktop\Modular_APP_V1        │
+╰───────────────────────────────────────────────────╯
+
+ Tips for getting started:
+
+ 1. Run /init to create a CLAUDE.md file with instructions for Claude
+ 2. Use Claude to help with file analysis, editing, bash commands and git
+ 3. Be as specific as you would with another engineer for the best results
+● Compact summary (ctrl+r to expand)
+  ⎿  Read OLD_SCHOOL\interactive-reading.css (531 lines)
+  ⎿  Read simple-demo.html (689 lines)
+  ⎿  Read reading.js (795 lines)
+  ⎿  Todo list read (3 items)
+
+● I can see that I've analyzed the OLD_SCHOOL sophisticated interactive reading system and the current modular architecture. Looking
+   at the existing modules and the OLD_SCHOOL CSS, I need to integrate the sophisticated interactive reading features into the
+  current system.
+
+● Update Todos
+  ⎿  [×] Δημιουργία πραγματικών interactive reading features (progress tracking, highlighting, WPM)
+     [×] Δημιουργία πραγματικού SVG marginalia system για σημειώσεις
+     [×] Ενσωμάτωση των modules στο simple-demo.html
+     [ ] Ενσωμάτωση των OLD_SCHOOL sophisticated features στο modular system
+     [ ] Εφαρμογή brain cell glowing και electrical synapse animations
+     [ ] Εφαρμογή typography morphology system based on AI-Q levels
+     [ ] Δημιουργία commit button system με green sphere και particle effects
+
+● I can see the sophisticated system from OLD_SCHOOL needs to be integrated. Let me now integrate the OLD_SCHOOL interactive reading
+   CSS into the current modular system and update simple-demo.html to work with the advanced features.
+
+● Update(simple-demo.html)
+  ⎿  Updated simple-demo.html with 250 additions and 23 removals                                                                    
+       371        <!-- Load existing modules -->
+       372        <link rel="stylesheet" href="marginalia.css">
+       373        <link rel="stylesheet" href="reading.css">
+       374 +      <link rel="stylesheet" href="OLD_SCHOOL/interactive-reading.css">
+       375        <script src="svg-marginalia.js"></script>
+       376        <script src="marginalia.js"></script>
+       377        <script src="reading.js"></script>
+     ...
+       489                    const mainContent = document.getElementById('main-content');
+       490                    
+       491                    let html = `
+       492 -                      <div class="chapter-header">
+       493 -                          <h1 class="chapter-title">${chapter.title}</h1>
+       494 -                          <p class="chapter-subtitle">${chapter.subtitle}</p>
+       495 -                          <div class="chapter-meta">
+       496 -                              <div class="meta-item">
+       497 -                                  <span>📚</span>
+       498 -                                  <span>Επίπεδο: ${chapter.level}</span>
+       492 +                      <div id="reading-content-wrapper">
+       493 +                          <div class="chapter-header">
+       494 +                              <h1 class="chapter-title">${chapter.title}</h1>
+       495 +                              <p class="chapter-subtitle">${chapter.subtitle}</p>
+       496 +                              <div class="chapter-meta">
+       497 +                                  <div class="meta-item">
+       498 +                                      <span>📚</span>
+       499 +                                      <span>Επίπεδο: ${chapter.level}</span>
+       500 +                                  </div>
+       501 +                                  <div class="meta-item">
+       502 +                                      <span>⏱️</span>
+       503 +                                      <span>Διάρκεια: ${chapter.estimatedTime}</span>
+       504 +                                  </div>
+       505                                </div>
+       506 -                              <div class="meta-item">
+       507 -                                  <span>⏱️</span>
+       508 -                                  <span>Διάρκεια: ${chapter.estimatedTime}</span>
+       509 -                              </div>
+       506                            </div>
+       507 -                      </div>
+       507                    `;
+       508    
+       509                    // Add introduction
+       510                    if (chapter.content.introduction) {
+       511                        html += `
+       512                            <div class="content-section">
+       513 -                              <p class="section-content">${chapter.content.introduction}</p>
+       513 +                              <div class="paragraph-interaction-container">
+       514 +                                  <p class="section-content">${chapter.content.introduction}</p>
+       515 +                                  <button class="commit-button" onclick="app.commitParagraph(this)" 
+           + data-paragraph="intro">
+       516 +                                      ✓
+       517 +                                  </button>
+       518 +                              </div>
+       519                            </div>
+       520                        `;
+       521                    }
+       522    
+       523                    // Add sections
+       524 -                  chapter.content.sections.forEach(section => {
+       524 +                  chapter.content.sections.forEach((section, index) => {
+       525                        if (section.type === 'text') {
+       526                            html += `
+       527                                <div class="content-section">
+       528 -                                  <h2 class="section-title">${section.title}</h2>
+       529 -                                  <div class="section-content">
+       530 -                                      ${this.formatContent(section.content)}
+       528 +                                  <div class="element-interaction-container">
+       529 +                                      <h2 class="section-title">${section.title}</h2>
+       530 +                                      <button class="commit-button" onclick="app.commitElement(this)" 
+     data-element="title-${section.id}">
+           + data-element="title-${section.id}">
+       531 +                                          ✓
+       532 +                                      </button>
+       533                                    </div>
+       534 +                                  <div class="paragraph-interaction-container">
+       535 +                                      <div class="section-content">
+       536 +                                          ${this.formatContentWithInteraction(section.content, section.id)}
+       537 +                                      </div>
+       538 +                                  </div>
+       539                                </div>
+       540                            `;
+       541                        } else if (section.type === 'exercise') {
+       542                            html += `
+       543                                <div class="exercise-section">
+       544 -                                  <div class="exercise-header">
+       545 -                                      <span class="exercise-icon">🎯</span>
+       546 -                                      <h3 class="exercise-title">${section.title}</h3>
+       544 +                                  <div class="element-interaction-container">
+       545 +                                      <div class="exercise-header">
+       546 +                                          <span class="exercise-icon">🎯</span>
+       547 +                                          <h3 class="exercise-title">${section.title}</h3>
+       548 +                                      </div>
+       549 +                                      <button class="commit-button" onclick="app.commitElement(this)" 
+           + data-element="exercise-${section.id}">
+       550 +                                          ✓
+       551 +                                      </button>
+       552                                    </div>
+       553 -                                  <div class="exercise-content">
+       554 -                                      <p>${section.content}</p>
+       553 +                                  <div class="paragraph-interaction-container">
+       554 +                                      <div class="exercise-content">
+       555 +                                          <p>${section.content}</p>
+       556 +                                      </div>
+       557 +                                      <button class="commit-button" onclick="app.commitParagraph(this)" 
+           + data-paragraph="exercise-content-${section.id}">
+       558 +                                          ✓
+       559 +                                      </button>
+       560                                    </div>
+       561                                    <button class="exercise-button" onclick="app.completeExercise('${section.id}')">
+       562                                        Ξεκίνα Άσκηση
+     ...
+       542                            `;
+       543                        }
+       544                    });
+       545 +                  
+       546 +                  html += '</div>'; // Close reading-content-wrapper
+       547    
+       548                    mainContent.innerHTML = html;
+       549                }
+     ...
+       562                        .join('')
+       563                        .replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>');
+       564                }
+       565 +              
+       566 +              formatContentWithInteraction(content, sectionId) {
+       567 +                  // Convert newlines to interactive paragraphs
+       568 +                  return content
+       569 +                      .split('\n')
+       570 +                      .map((line, index) => {
+       571 +                          line = line.trim();
+       572 +                          if (line.startsWith('- ')) {
+       573 +                              return `
+       574 +                                  <div class="element-interaction-container">
+       575 +                                      <li>${line.substring(2)}</li>
+       576 +                                      <button class="commit-button" onclick="app.commitElement(this)" 
+           + data-element="li-${sectionId}-${index}">
+       577 +                                          ✓
+       578 +                                      </button>
+       579 +                                  </div>`;
+       580 +                          } else if (line) {
+       581 +                              return `
+       582 +                                  <div class="paragraph-interaction-container">
+       583 +                                      <p>${line}</p>
+       584 +                                      <button class="commit-button" onclick="app.commitParagraph(this)" 
+           + data-paragraph="p-${sectionId}-${index}">
+       585 +                                          ✓
+       586 +                                      </button>
+       587 +                                  </div>`;
+       588 +                          }
+       589 +                          return '';
+       590 +                      })
+       591 +                      .join('');
+       592 +              }
+       593    
+       594                completeExercise(exerciseId) {
+       595                    console.log('Completing exercise:', exerciseId);
+     ...
+       573                    // Show completion message
+       574                    alert(`Συγχαρητήρια! Ολοκληρώσατε την άσκηση.\nAI-Q +5 (Νέο AI-Q: ${this.currentAIQ})`);
+       575                }
+       576 +              
+       577 +              commitParagraph(button) {
+       578 +                  const container = button.closest('.paragraph-interaction-container');
+       579 +                  const paragraph = container.querySelector('p');
+       580 +                  
+       581 +                  if (!paragraph.classList.contains('p-committed')) {
+       582 +                      // Add committed styling based on AI-Q level
+       583 +                      const level = this.getTypographyLevel();
+       584 +                      paragraph.classList.add('p-committed', `level-${level}`);
+       585 +                      
+       586 +                      // Trigger commit animation
+       587 +                      button.classList.add('clicked');
+       588 +                      
+       589 +                      // Increase AI-Q
+       590 +                      this.currentAIQ += 2;
+       591 +                      this.updateAIQDisplay();
+       592 +                      
+       593 +                      // Create electrical spark effect to brain (AI-Q indicator)
+       594 +                      this.createElectricalSpark(button, document.getElementById('aiq-indicator'));
+       595 +                      
+       596 +                      // Hide button after animation
+       597 +                      setTimeout(() => {
+       598 +                          button.style.display = 'none';
+       599 +                      }, 400);
+       600 +                  }
+       601 +              }
+       602 +              
+       603 +              commitElement(button) {
+       604 +                  const container = button.closest('.element-interaction-container');
+       605 +                  const element = container.querySelector('h1, h2, h3, h4, h5, h6, li');
+       606 +                  
+       607 +                  if (element && !element.classList.contains('element-committed')) {
+       608 +                      // Add committed styling based on AI-Q level
+       609 +                      const level = this.getTypographyLevel();
+       610 +                      element.classList.add('element-committed', `level-${level}`);
+       611 +                      
+       612 +                      // Trigger commit animation
+       613 +                      button.classList.add('clicked');
+       614 +                      
+       615 +                      // Increase AI-Q
+       616 +                      this.currentAIQ += 3;
+       617 +                      this.updateAIQDisplay();
+       618 +                      
+       619 +                      // Create electrical spark effect to brain (AI-Q indicator)
+       620 +                      this.createElectricalSpark(button, document.getElementById('aiq-indicator'));
+       621 +                      
+       622 +                      // Hide button after animation
+       623 +                      setTimeout(() => {
+       624 +                          button.style.display = 'none';
+       625 +                      }, 400);
+       626 +                  }
+       627 +              }
+       628 +              
+       629 +              getTypographyLevel() {
+       630 +                  if (this.currentAIQ >= 160) return 4;
+       631 +                  if (this.currentAIQ >= 140) return 3;
+       632 +                  if (this.currentAIQ >= 120) return 2;
+       633 +                  if (this.currentAIQ >= 100) return 1;
+       634 +                  return 0;
+       635 +              }
+       636 +              
+       637 +              createElectricalSpark(fromElement, toElement) {
+       638 +                  const fromRect = fromElement.getBoundingClientRect();
+       639 +                  const toRect = toElement.getBoundingClientRect();
+       640 +                  
+       641 +                  // Create spark element
+       642 +                  const spark = document.createElement('div');
+       643 +                  spark.className = 'electrical-spark';
+       644 +                  spark.style.cssText = `
+       645 +                      position: fixed;
+       646 +                      width: 6px;
+       647 +                      height: 6px;
+       648 +                      background: #00FFFF;
+       649 +                      border-radius: 50%;
+       650 +                      pointer-events: none;
+       651 +                      z-index: 9999;
+       652 +                      --spark-start-x: ${fromRect.left + fromRect.width / 2}px;
+       653 +                      --spark-start-y: ${fromRect.top + fromRect.height / 2}px;
+       654 +                      --spark-end-x: ${toRect.left + toRect.width / 2}px;
+       655 +                      --spark-end-y: ${toRect.top + toRect.height / 2}px;
+       656 +                      animation: electrical-spark-travel 0.8s ease-out forwards;
+       657 +                  `;
+       658 +                  
+       659 +                  document.body.appendChild(spark);
+       660 +                  
+       661 +                  // Add brain cell pulse effect
+       662 +                  const aiqIndicator = document.getElementById('aiq-indicator');
+       663 +                  aiqIndicator.classList.add('brain-cell-active');
+       664 +                  
+       665 +                  // Remove spark and effects after animation
+       666 +                  setTimeout(() => {
+       667 +                      if (spark.parentNode) {
+       668 +                          spark.parentNode.removeChild(spark);
+       669 +                      }
+       670 +                      aiqIndicator.classList.remove('brain-cell-active');
+       671 +                  }, 800);
+       672 +                  
+       673 +                  // Create sparkle burst at destination
+       674 +                  setTimeout(() => {
+       675 +                      this.createSparkleBurst(toElement);
+       676 +                  }, 600);
+       677 +              }
+       678 +              
+       679 +              createSparkleBurst(element) {
+       680 +                  const rect = element.getBoundingClientRect();
+       681 +                  const centerX = rect.left + rect.width / 2;
+       682 +                  const centerY = rect.top + rect.height / 2;
+       683 +                  
+       684 +                  // Create multiple sparkle particles
+       685 +                  for (let i = 0; i < 8; i++) {
+       686 +                      const sparkle = document.createElement('div');
+       687 +                      sparkle.className = 'sparkle-particle';
+       688 +                      
+       689 +                      const angle = (i / 8) * Math.PI * 2;
+       690 +                      const distance = 30 + Math.random() * 20;
+       691 +                      const sparkX = Math.cos(angle) * distance;
+       692 +                      const sparkY = Math.sin(angle) * distance;
+       693 +                      
+       694 +                      sparkle.style.cssText = `
+       695 +                          position: fixed;
+       696 +                          left: ${centerX}px;
+       697 +                          top: ${centerY}px;
+       698 +                          width: 4px;
+       699 +                          height: 4px;
+       700 +                          background: #FFD700;
+       701 +                          border-radius: 50%;
+       702 +                          pointer-events: none;
+       703 +                          z-index: 9998;
+       704 +                          --spark-x: ${sparkX}px;
+       705 +                          --spark-y: ${sparkY}px;
+       706 +                          animation: sparkle-burst 0.6s ease-out forwards;
+       707 +                      `;
+       708 +                      
+       709 +                      document.body.appendChild(sparkle);
+       710 +                      
+       711 +                      // Remove sparkle after animation
+       712 +                      setTimeout(() => {
+       713 +                          if (sparkle.parentNode) {
+       714 +                              sparkle.parentNode.removeChild(sparkle);
+       715 +                          }
+       716 +                      }, 600);
+       717 +                  }
+       718 +              }
+       719    
+       720                updateAIQDisplay() {
+       721                    const aiqValue = document.getElementById('aiq-value');
+     ...
+       586                    const aiqIndicator = document.getElementById('aiq-indicator');
+       587                    if (aiqIndicator) {
+       588                        aiqIndicator.addEventListener('click', () => {
+       589 -                          alert(`Το AI-Q σας είναι: ${this.currentAIQ}\n\nΤο AI-Q αυξάνεται όταν:\n- Ολοκληρώνετε 
+     ασκήσεις\n- Διαβάζετε περιεχόμενο\n- Δημιουργείτε σημειώσεις`);
+           - ασκήσεις\n- Διαβάζετε περιεχόμενο\n- Δημιουργείτε σημειώσεις`);
+       589 +                          alert(`Το AI-Q σας είναι: ${this.currentAIQ}\n\nΤο AI-Q αυξάνεται όταν:\n- Ολοκληρώνετε 
+     ασκήσεις (+5)\n- Διαβάζετε παραγράφους (+2)\n- Διαβάζετε τίτλους/στοιχεία (+3)\n- Δημιουργείτε σημειώσεις`);
+           + ασκήσεις (+5)\n- Διαβάζετε παραγράφους (+2)\n- Διαβάζετε τίτλους/στοιχεία (+3)\n- Δημιουργείτε σημειώσεις`);
+       590                        });
+       591                    }
+       592 +                  
+       593 +                  // Show commit buttons on hover
+       594 +                  document.addEventListener('mouseenter', (e) => {
+       595 +                      const container = e.target.closest('.paragraph-interaction-container, 
+           + .element-interaction-container');
+       596 +                      if (container) {
+       597 +                          const button = container.querySelector('.commit-button');
+       598 +                          if (button && !button.classList.contains('clicked')) {
+       599 +                              button.classList.add('visible');
+       600 +                          }
+       601 +                      }
+       602 +                  }, true);
+       603 +                  
+       604 +                  document.addEventListener('mouseleave', (e) => {
+       605 +                      const container = e.target.closest('.paragraph-interaction-container, 
+           + .element-interaction-container');
+       606 +                      if (container) {
+       607 +                          const button = container.querySelector('.commit-button');
+       608 +                          if (button && !button.classList.contains('clicked')) {
+       609 +                              // Add timeout to hide button
+       610 +                              setTimeout(() => {
+       611 +                                  if (!container.matches(':hover')) {
+       612 +                                      button.classList.remove('visible');
+       613 +                                      button.classList.add('slide-away');
+       614 +                                      setTimeout(() => {
+       615 +                                          button.classList.remove('slide-away');
+       616 +                                      }, 600);
+       617 +                                  }
+       618 +                              }, 1500);
+       619 +                          }
+       620 +                      }
+       621 +                  }, true);
+       622    
+       623                    // Responsive handling
+       624                    this.handleResponsive();
+
+● Now I need to update the CSS to support the sophisticated interactive reading features by integrating some key elements from the
+  OLD_SCHOOL system:
+
+● Update(simple-demo.html)
+  ⎿  Updated simple-demo.html with 214 additions                                                           
+       334            .hidden {
+       335                display: none !important;
+       336            }
+       337 +          
+       338 +          /* Interactive Reading Enhancements */
+       339 +          .paragraph-interaction-container,
+       340 +          .element-interaction-container {
+       341 +              position: relative;
+       342 +              margin: 1em 0;
+       343 +              padding-right: 60px;
+       344 +          }
+       345 +          
+       346 +          .commit-button {
+       347 +              position: absolute;
+       348 +              right: -50px;
+       349 +              top: 0;
+       350 +              width: 32px;
+       351 +              height: 32px;
+       352 +              background-color: #10B981;
+       353 +              color: white;
+       354 +              border: 2px solid white;
+       355 +              box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+       356 +              border-radius: 50%;
+       357 +              cursor: pointer;
+       358 +              opacity: 0;
+       359 +              pointer-events: none;
+       360 +              transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+       361 +              display: flex;
+       362 +              justify-content: center;
+       363 +              align-items: center;
+       364 +              font-size: 16px;
+       365 +              z-index: 1000;
+       366 +          }
+       367 +          
+       368 +          .commit-button.visible {
+       369 +              opacity: 1;
+       370 +              right: 10px;
+       371 +              pointer-events: auto;
+       372 +          }
+       373 +          
+       374 +          .commit-button:hover {
+       375 +              transform: scale(1.1);
+       376 +              box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+       377 +          }
+       378 +          
+       379 +          .commit-button.clicked {
+       380 +              animation: micro-effect 0.4s ease-out forwards;
+       381 +          }
+       382 +          
+       383 +          @keyframes micro-effect {
+       384 +              0% {
+       385 +                  transform: scale(1);
+       386 +                  background: #10B981;
+       387 +                  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+       388 +              }
+       389 +              25% {
+       390 +                  transform: scale(1.2);
+       391 +                  background: radial-gradient(circle, #10B981 0%, #059669 100%);
+       392 +                  box-shadow: 0 0 20px rgba(16, 185, 129, 0.8);
+       393 +              }
+       394 +              50% {
+       395 +                  transform: scale(1.6);
+       396 +                  background: radial-gradient(circle, #34D399 0%, #10B981 100%);
+       397 +                  opacity: 0.8;
+       398 +                  box-shadow: 0 0 30px rgba(52, 211, 153, 1);
+       399 +              }
+       400 +              100% {
+       401 +                  transform: scale(0);
+       402 +                  opacity: 0;
+       403 +                  background: #A7F3D0;
+       404 +              }
+       405 +          }
+       406 +          
+       407 +          /* Brain cell animations */
+       408 +          .brain-cell-active {
+       409 +              animation: brain-cell-pulse 2s infinite ease-in-out;
+       410 +              filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.6));
+       411 +          }
+       412 +          
+       413 +          @keyframes brain-cell-pulse {
+       414 +              0%, 100% {
+       415 +                  transform: scale(1);
+       416 +                  filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.6));
+       417 +              }
+       418 +              50% {
+       419 +                  transform: scale(1.1);
+       420 +                  filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
+       421 +              }
+       422 +          }
+       423 +          
+       424 +          /* Electrical spark animations */
+       425 +          @keyframes electrical-spark-travel {
+       426 +              0% {
+       427 +                  left: var(--spark-start-x);
+       428 +                  top: var(--spark-start-y);
+       429 +                  transform: translate(-50%, -50%) scale(1);
+       430 +                  opacity: 1;
+       431 +                  box-shadow: 0 0 12px #00FFFF, 0 0 24px #0080FF;
+       432 +              }
+       433 +              50% {
+       434 +                  transform: translate(-50%, -50%) scale(1.5);
+       435 +                  opacity: 0.9;
+       436 +                  box-shadow: 0 0 20px #00FFFF, 0 0 40px #0080FF;
+       437 +              }
+       438 +              100% {
+       439 +                  left: var(--spark-end-x);
+       440 +                  top: var(--spark-end-y);
+       441 +                  transform: translate(-50%, -50%) scale(0.5);
+       442 +                  opacity: 0;
+       443 +                  box-shadow: 0 0 30px #00FFFF, 0 0 60px #0080FF;
+       444 +              }
+       445 +          }
+       446 +          
+       447 +          /* Sparkle burst animation */
+       448 +          @keyframes sparkle-burst {
+       449 +              0% {
+       450 +                  transform: translate(0, 0) scale(1) rotate(0deg);
+       451 +                  opacity: 1;
+       452 +              }
+       453 +              50% {
+       454 +                  transform: translate(
+       455 +                      calc(var(--spark-x) * 0.7), 
+       456 +                      calc(var(--spark-y) * 0.7)
+       457 +                  ) scale(1.2) rotate(180deg);
+       458 +                  opacity: 0.8;
+       459 +              }
+       460 +              100% {
+       461 +                  transform: translate(var(--spark-x), var(--spark-y)) scale(0) rotate(360deg);
+       462 +                  opacity: 0;
+       463 +              }
+       464 +          }
+       465 +          
+       466 +          /* Typography tiers for committed elements */
+       467 +          .p-committed,
+       468 +          .element-committed {
+       469 +              background-color: #F0FDF4;
+       470 +              transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+       471 +              border-radius: 4px;
+       472 +              padding: 8px 12px;
+       473 +              margin: 16px 0;
+       474 +          }
+       475 +          
+       476 +          /* Level 1: AI-Q 100-119 */
+       477 +          .p-committed.level-1,
+       478 +          .element-committed.level-1 {
+       479 +              background-color: #ECFDF5;
+       480 +              text-align: justify;
+       481 +              line-height: 1.7;
+       482 +              padding: 10px 16px;
+       483 +              border-left: 3px solid #10B981;
+       484 +          }
+       485 +          
+       486 +          /* Level 2: AI-Q 120-139 */
+       487 +          .p-committed.level-2,
+       488 +          .element-committed.level-2 {
+       489 +              background-color: #D1FAE5;
+       490 +              text-align: justify;
+       491 +              line-height: 1.7;
+       492 +              text-indent: 2em;
+       493 +              padding: 12px 20px;
+       494 +              border-left: 4px solid #059669;
+       495 +              box-shadow: 0 2px 4px rgba(16, 185, 129, 0.1);
+       496 +          }
+       497 +          
+       498 +          /* Level 3: AI-Q 140-159 */
+       499 +          .p-committed.level-3,
+       500 +          .element-committed.level-3 {
+       501 +              background-color: #A7F3D0;
+       502 +              text-align: justify;
+       503 +              line-height: 1.75;
+       504 +              text-indent: 2em;
+       505 +              font-family: "Georgia", "Palatino Linotype", serif;
+       506 +              font-size: 16.5px;
+       507 +              padding: 14px 24px;
+       508 +              border-left: 5px solid #047857;
+       509 +              border-radius: 6px;
+       510 +              box-shadow: 0 4px 8px rgba(16, 185, 129, 0.15);
+       511 +          }
+       512 +          
+       513 +          /* Level 4: AI-Q 160+ */
+       514 +          .p-committed.level-4,
+       515 +          .element-committed.level-4 {
+       516 +              background: linear-gradient(135deg, #6EE7B7 0%, #A7F3D0 100%);
+       517 +              text-align: justify;
+       518 +              line-height: 1.8;
+       519 +              text-indent: 2em;
+       520 +              font-family: "Georgia", "Palatino Linotype", serif;
+       521 +              font-size: 17px;
+       522 +              letter-spacing: 0.5px;
+       523 +              text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+       524 +              padding: 16px 28px;
+       525 +              border-left: 6px solid #065F46;
+       526 +              border-radius: 8px;
+       527 +              box-shadow: 
+       528 +                  0 6px 12px rgba(16, 185, 129, 0.2),
+       529 +                  inset 0 1px 0 rgba(255, 255, 255, 0.4);
+       530 +              position: relative;
+       531 +          }
+       532 +          
+       533 +          .p-committed.level-4::before,
+       534 +          .element-committed.level-4::before {
+       535 +              content: '';
+       536 +              position: absolute;
+       537 +              top: 0;
+       538 +              left: 0;
+       539 +              right: 0;
+       540 +              height: 2px;
+       541 +              background: linear-gradient(90deg, #047857, #10B981, #047857);
+       542 +              border-radius: 8px 8px 0 0;
+       543 +          }
+       544 +          
+       545 +          /* Remove text-indent from non-paragraph elements */
+       546 +          h1.element-committed, h2.element-committed, h3.element-committed,
+       547 +          h4.element-committed, h5.element-committed, h6.element-committed,
+       548 +          li.element-committed {
+       549 +              text-indent: 0 !important;
+       550 +          }
+       551        </style>
+       552    </head>
+       553    <body>
+  ⎿  Claude usage limit reached. Your limit will reset at 5am (Europe/Athens).
+
+      • /upgrade to increase your usage limit.
+
+> /model 
+  ⎿  Set model to Sonnet (Sonnet 4 for daily use)
+
+> continue
+  ⎿  Claude usage limit reached. Your limit will reset at 5am (Europe/Athens).
+
+      • /upgrade to increase your usage limit.
+
+> /export 
+  ⎿  Conversation copied to clipboard
+

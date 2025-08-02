@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scribble Saga Enhanced Demo - AI Orchestrator's Ascent</title>
+    
+    <!-- FontAwesome από το production package -->
+    <link rel="stylesheet" href="../FINAL_PRODUCTION_PACKAGE/draftV2/assets/fontawesome/css/all.min.css">
+    
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="core.css">
+    <link rel="stylesheet" href="components.css">
+    <link rel="stylesheet" href="responsive.css">
+    
+    <!-- Scribble Saga Enhanced CSS -->
+    <link rel="stylesheet" href="scribble-saga-enhanced.css">
+    
+    <style>
+        /* Demo-specific styling */
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+        }
+        
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+            overflow: hidden;
+        }
+        
+        .demo-header {
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .demo-header h1 {
+            margin: 0 0 0.5rem 0;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .demo-header p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .demo-content {
+            padding: 2rem;
+            line-height: 1.6;
+        }
+        
+        .demo-instructions {
+            background: #f1f5f9;
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .demo-instructions h3 {
+            margin: 0 0 0.5rem 0;
+            color: #1e40af;
+        }
+        
+        .feature-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .feature-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.2s ease-in-out;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            color: #3b82f6;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h4 {
+            margin: 0 0 0.5rem 0;
+            color: #1e293b;
+        }
+        
+        .feature-card p {
+            margin: 0;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        
+        .demo-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #3b82f6;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease-in-out;
+            text-decoration: none;
+            margin: 1rem 0;
+        }
+        
+        .demo-button:hover {
+            background: #1e40af;
+        }
+        
+        #marginalia-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+        
+        #fullscreen-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: auto;
+            z-index: 998;
+        }
+        
+        .creative-level-indicator {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            z-index: 1001;
+        }
+        
+        @media (max-width: 768px) {
+            .demo-container {
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            .creative-level-indicator {
+                position: relative;
+                top: auto;
+                left: auto;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- SVG και Canvas για marginalia -->
+    <svg id="marginalia-svg"></svg>
+    <canvas id="fullscreen-canvas"></canvas>
+    
+    <!-- Creative Level Indicator -->
+    <div class="creative-level-indicator">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <i class="fas fa-palette" style="color: #3b82f6;"></i>
+            <span style="font-weight: 600;">Scribble Saga Active</span>
+        </div>
+        <div style="font-size: 0.8rem; color: #64748b; margin-top: 0.25rem;">
+            Draw anywhere to test the system!
+        </div>
+    </div>
+    
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1><i class="fas fa-magic"></i> Scribble Saga Enhanced</h1>
+            <p>Professional Creative Pattern Engine with FontAwesome Icons</p>
+        </div>
+        
+        <div class="demo-content">
+            <div class="demo-instructions">
+                <h3><i class="fas fa-info-circle"></i> Πώς να Δοκιμάσετε</h3>
+                <ul>
+                    <li>Δείτε το **professional control panel** στα δεξιά με FontAwesome icons</li>
+                    <li>Επιλέξτε εργαλεία από την **enhanced tools grid**</li>
+                    <li>Σχεδιάστε στα περιθώρια ή οπουδήποτε στη σελίδα</li>
+                    <li>Παρακολουθήστε το **AI-Q progression system** και achievements</li>
+                    <li>Δοκιμάστε τα διαφορετικά **creative effects**</li>
+                </ul>
+            </div>
+            
+            <h2><i class="fas fa-star"></i> Χαρακτηριστικά του Scribble Saga Enhanced</h2>
+            
+            <div class="feature-showcase">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-icons"></i>
+                    </div>
+                    <h4>FontAwesome Icons</h4>
+                    <p>Professional icons αντί για generic emojis. Scalable SVG quality.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h4>5-Level Progression</h4>
+                    <p>Από Αρχάριος Δημιουργός μέχρι Μάστορας Δημιουργίας.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h4>Creative XP System</h4>
+                    <p>Gamified progression με XP, achievements και unlockables.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h4>Pattern Recognition</h4>
+                    <p>Client-side AI που αναγνωρίζει creative patterns.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h4>Responsive Design</h4>
+                    <p>Optimized για desktop, tablet και mobile συσκευές.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>Privacy-First</h4>
+                    <p>Όλα τα data μένουν local. Δεν υπάρχει server tracking.</p>
+                </div>
+            </div>
+            
+            <h3><i class="fas fa-paint-brush"></i> Δοκιμαστικό Περιεχόμενο</h3>
+            <p>Αυτή η παράγραφος είναι ιδανική για δοκιμή του <strong>marginalia system</strong>. Μπορείτε να σχεδιάσετε στα περιθώρια, να προσθέσετε annotations, ή να δημιουργήσετε creative patterns. Το σύστημα θα αναγνωρίσει τα σχήματά σας και θα σας δώσει XP και achievements.</p>
+            
+            <p>Το <em>Scribble Saga Enhanced</em> συνδυάζει τα καλύτερα στοιχεία από την OLD_SCHOOL έκδοση με τη νέα modular αρχιτεκτονική. Έχετε πρόσβαση σε επαγγελματικά εργαλεία, progressive enhancement και ένα πλήρες creative ecosystem που ενθαρρύνει την artistic έκφραση.</p>
+            
+            <div class="demo-instructions">
+                <h3><i class="fas fa-lightbulb"></i> Advanced Features</h3>
+                <p>Καθώς το AI-Q σας αυξάνεται, ξεκλειδώνονται νέα εργαλεία και effects. Δοκιμάστε να σχεδιάσετε circles, lines ή complex patterns για να δείτε το <strong>pattern recognition</strong> σε δράση!</p>
+            </div>
+            
+            <h3><i class="fas fa-code"></i> Τεχνική Υλοποίηση</h3>
+            <ul>
+                <li><strong>Icon Management:</strong> FontAwesome integration με professional icon mapping</li>
+                <li><strong>Modular Architecture:</strong> Extends το υπάρχον marginalia system</li>
+                <li><strong>Progressive Enhancement:</strong> Graceful degradation σε older browsers</li>
+                <li><strong>Performance Optimized:</strong> SVG caching και lazy loading</li>
+                <li><strong>Accessibility:</strong> Screen reader support και keyboard navigation</li>
+            </ul>
+            
+            <a href="index.html" class="demo-button">
+                <i class="fas fa-arrow-left"></i>
+                Επιστροφή στο Main App
+            </a>
+            
+            <a href="#" onclick="initScribbleSagaDemo()" class="demo-button">
+                <i class="fas fa-rocket"></i>
+                Initialize Scribble Saga
+            </a>
+        </div>
+    </div>
+    
+    <!-- Core JavaScript -->
+    <script src="event-manager.js"></script>
+    <script src="content-manager.js"></script>
+    <script src="responsive-manager.js"></script>
+    <script src="module-loader.js"></script>
+    <script src="app.js"></script>
+    
+    <!-- Marginalia System -->
+    <script src="marginalia.js"></script>
+    <script src="aiq.js"></script>
+    
+    <!-- Icon Manager και Scribble Saga modules -->
+    <script src="icon-manager.js"></script>
+    <script src="scribble-saga-core.js"></script>
+    <script src="scribble-saga-enhanced-clean.js"></script>
+    
+    <script>
+        // Demo initialization
+        let scribbleSagaDemo = null;
+        
+        async function initScribbleSagaDemo() {
+            try {
+                console.log('🎨 Initializing Scribble Saga Enhanced Demo...');
+                
+                // Create minimal app context για το demo
+                const demoApp = {
+                    config: { debug: true },
+                    eventManager: new EventManager(),
+                    modules: new Map(),
+                    emit: function(event, data) {
+                        this.eventManager.emit(event, data);
+                        console.log(`📡 Event: ${event}`, data);
+                    },
+                    on: function(event, callback) {
+                        return this.eventManager.on(event, callback);
+                    },
+                    getModule: function(name) {
+                        return this.modules.get(name);
+                    }
+                };
+                
+                // Initialize Icon Manager με path στο FontAwesome
+                const iconManager = new IconManager('../FINAL_PRODUCTION_PACKAGE/draftV2/assets/fontawesome');
+                await iconManager.loadCSS();
+                
+                // Create και initialize Scribble Saga Enhanced
+                scribbleSagaDemo = new ScribbleSagaEnhancedModule(demoApp);
+                await scribbleSagaDemo.init();
+                
+                // Add to app modules
+                demoApp.modules.set('scribbleSaga', scribbleSagaDemo);
+                
+                // Make it globally accessible for the creative sparks
+                window.scribbleSagaDemo = scribbleSagaDemo;
+                
+                console.log('✨ Scribble Saga Enhanced Demo initialized successfully!');
+                
+                // Update button
+                const button = event.target;
+                button.innerHTML = '<i class="fas fa-check"></i> Scribble Saga Active!';
+                button.style.background = '#22c55e';
+                
+                // Show success message
+                setTimeout(() => {
+                    alert('🎨 Scribble Saga Enhanced is now active!\n\nLook at the professional control panel on the right and start drawing!');
+                }, 500);
+                
+            } catch (error) {
+                console.error('❌ Failed to initialize Scribble Saga Demo:', error);
+                alert('Failed to initialize demo. Check console for details.');
+            }
+        }
+        
+        // Auto-initialize on page load για demo purposes
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🎯 Demo page loaded. Click "Initialize Scribble Saga" to start!');
+            
+            // Add some demo instructions
+            const instructions = document.createElement('div');
+            instructions.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 20px;
+                background: rgba(59, 130, 246, 0.9);
+                color: white;
+                padding: 1rem;
+                border-radius: 8px;
+                font-size: 0.9rem;
+                max-width: 300px;
+                z-index: 1000;
+            `;
+            instructions.innerHTML = `
+                <strong>💡 Demo Tip:</strong><br>
+                Click "Initialize Scribble Saga" and then draw in the margins or anywhere on the page to see the professional creative tools in action!
+            `;
+            document.body.appendChild(instructions);
+            
+            // Auto-hide after 10 seconds
+            setTimeout(() => {
+                if (instructions.parentNode) {
+                    instructions.style.opacity = '0';
+                    instructions.style.transition = 'opacity 0.5s ease-out';
+                    setTimeout(() => instructions.remove(), 500);
+                }
+            }, 10000);
+        });
+        
+        // Demo analytics
+        let demoStats = {
+            startTime: Date.now(),
+            interactions: 0,
+            patternsDetected: 0
+        };
+        
+        // Track demo interactions
+        document.addEventListener('click', () => demoStats.interactions++);
+        document.addEventListener('touchstart', () => demoStats.interactions++);
+        
+        // Show demo stats on page unload
+        window.addEventListener('beforeunload', () => {
+            const timeSpent = Math.round((Date.now() - demoStats.startTime) / 1000);
+            console.log(`📊 Demo Stats: ${timeSpent}s spent, ${demoStats.interactions} interactions`);
+        });
+    </script>
+</body>
+</html>

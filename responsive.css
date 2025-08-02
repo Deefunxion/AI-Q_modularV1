@@ -1,0 +1,329 @@
+/* ===================================
+   AI ORCHESTRATOR'S ASCENT - RESPONSIVE CSS
+   =================================== */
+
+/* ===================================
+   MOBILE VERTICAL (PORTRAIT) STYLES
+   Default styles are mobile-first
+   =================================== */
+
+/* Base mobile styles (up to 768px) */
+@media (max-width: 767px) {
+    :root {
+        /* Adjust spacing for mobile */
+        --space-container: var(--space-4);
+        --font-size-h1: var(--font-size-3xl);
+        --font-size-h2: var(--font-size-2xl);
+        --font-size-h3: var(--font-size-xl);
+    }
+    
+    .main-content {
+        padding: var(--space-container);
+    }
+    
+    .content-wrapper {
+        /* Use full width on mobile with proper padding */
+        max-width: 100%;
+        padding: 0;
+    }
+}
+
+/* Mobile Portrait Specific (narrow screens) */
+@media (max-width: 767px) and (orientation: portrait) {
+    :root {
+        /* Optimize for narrow screens */
+        --content-padding: var(--space-3);
+        --line-height-reading: 1.6; /* Better readability on small screens */
+    }
+    
+    body {
+        /* Prevent horizontal scroll */
+        overflow-x: hidden;
+        /* Optimize text rendering for mobile */
+        text-rendering: optimizeSpeed;
+    }
+    
+    .main-content {
+        /* Single column layout with optimal padding */
+        padding: var(--space-3) var(--space-4);
+        /* Ensure content doesn't get too narrow */
+        min-width: 0;
+    }
+    
+    /* Typography adjustments for mobile portrait */
+    h1, h2, h3, h4, h5, h6 {
+        /* Prevent text from being too cramped */
+        word-wrap: break-word;
+        hyphens: auto;
+    }
+    
+    p, li {
+        /* Optimize paragraph spacing for mobile reading */
+        margin-bottom: var(--space-4);
+        line-height: var(--line-height-reading);
+    }
+    
+    /* Touch-friendly interactive elements */
+    button, a, input, select, textarea {
+        min-height: 44px; /* iOS recommended touch target size */
+        min-width: 44px;
+    }
+    
+    /* Optimize forms for mobile */
+    input, textarea, select {
+        font-size: 16px; /* Prevent zoom on iOS */
+        padding: var(--space-3);
+    }
+}
+
+/* ===================================
+   MOBILE HORIZONTAL (LANDSCAPE) STYLES
+   =================================== */
+
+@media (max-width: 767px) and (orientation: landscape) {
+    :root {
+        /* Take advantage of wider screen */
+        --content-max-width: 600px;
+        --content-padding: var(--space-4);
+    }
+    
+    .main-content {
+        /* Center content with more generous padding */
+        padding: var(--space-4) var(--space-6);
+    }
+    
+    .content-wrapper {
+        /* Constrain width for better readability */
+        max-width: var(--content-max-width);
+        margin: 0 auto;
+    }
+    
+    /* Adjust navigation for landscape */
+    .global-nav {
+        /* Could implement horizontal navigation here */
+    }
+    
+    /* Optimize reading experience for landscape */
+    p {
+        /* Slightly tighter line height for wider screens */
+        line-height: var(--line-height-normal);
+    }
+}
+
+/* ===================================
+   TABLET STYLES
+   =================================== */
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    :root {
+        /* Tablet-specific adjustments */
+        --content-max-width: 700px;
+        --space-container: var(--space-6);
+    }
+    
+    .main-content {
+        padding: var(--space-container);
+    }
+    
+    .content-wrapper {
+        max-width: var(--content-max-width);
+    }
+    
+    /* Tablet can handle slightly larger touch targets */
+    button, a {
+        min-height: 40px;
+        min-width: 40px;
+    }
+}
+
+/* ===================================
+   DESKTOP STYLES
+   =================================== */
+
+@media (min-width: 1024px) {
+    :root {
+        /* Desktop-specific adjustments */
+        --content-max-width: 800px;
+        --space-container: var(--space-8);
+        --font-size-h1: var(--font-size-4xl);
+        --font-size-h2: var(--font-size-3xl);
+        --font-size-h3: var(--font-size-2xl);
+    }
+    
+    .main-content {
+        padding: var(--space-container);
+    }
+    
+    .content-wrapper {
+        max-width: var(--content-max-width);
+    }
+    
+    /* Desktop can use hover states */
+    button:hover,
+    a:hover {
+        transition: all var(--transition-fast);
+    }
+    
+    /* Desktop-specific navigation */
+    .global-nav {
+        /* Could implement desktop navigation here */
+    }
+    
+    /* Optimize for mouse/trackpad interaction */
+    button, a {
+        min-height: 36px;
+        min-width: 36px;
+    }
+}
+
+/* ===================================
+   LARGE DESKTOP STYLES
+   =================================== */
+
+@media (min-width: 1280px) {
+    :root {
+        --container-max-width: 1200px;
+        --content-max-width: 900px;
+    }
+    
+    .main-content {
+        padding: var(--space-10) var(--space-8);
+    }
+}
+
+/* ===================================
+   PRINT STYLES
+   =================================== */
+
+@media print {
+    :root {
+        /* Optimize colors for print */
+        --theme-bg: white;
+        --theme-text: black;
+        --theme-text-secondary: #333;
+        --theme-border: #ccc;
+    }
+    
+    body {
+        font-size: 12pt;
+        line-height: 1.4;
+    }
+    
+    .app-loader,
+    .global-nav,
+    .module-container,
+    .marginalia-canvas,
+    .fullscreen-canvas {
+        display: none !important;
+    }
+    
+    .main-content {
+        padding: 0;
+        max-width: none;
+    }
+    
+    /* Ensure content breaks properly */
+    h1, h2, h3, h4, h5, h6 {
+        page-break-after: avoid;
+    }
+    
+    p, li {
+        page-break-inside: avoid;
+    }
+}
+
+/* ===================================
+   ACCESSIBILITY RESPONSIVE ADJUSTMENTS
+   =================================== */
+
+/* Large text support */
+@media (min-width: 768px) {
+    .large-text {
+        font-size: 1.2em;
+        line-height: 1.6;
+    }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    /* Optimize for high DPI displays */
+    body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+/* ===================================
+   CONTAINER QUERIES (Future Enhancement)
+   =================================== */
+
+/* When container queries are widely supported, we can add:
+@container (max-width: 400px) {
+    .content-wrapper {
+        padding: var(--space-2);
+    }
+}
+*/
+
+/* ===================================
+   RESPONSIVE UTILITIES
+   =================================== */
+
+/* Show/hide based on screen size */
+.mobile-only {
+    display: block;
+}
+
+.tablet-only,
+.desktop-only {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .mobile-only {
+        display: none;
+    }
+    
+    .tablet-only {
+        display: block;
+    }
+}
+
+@media (min-width: 1024px) {
+    .tablet-only {
+        display: none;
+    }
+    
+    .desktop-only {
+        display: block;
+    }
+}
+
+/* Responsive text alignment */
+.text-center-mobile {
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .text-center-mobile {
+        text-align: left;
+    }
+}
+
+/* Responsive spacing */
+.space-responsive {
+    margin-bottom: var(--space-4);
+}
+
+@media (min-width: 768px) {
+    .space-responsive {
+        margin-bottom: var(--space-6);
+    }
+}
+
+@media (min-width: 1024px) {
+    .space-responsive {
+        margin-bottom: var(--space-8);
+    }
+}
+

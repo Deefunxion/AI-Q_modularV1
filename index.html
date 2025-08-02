@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Orchestrator's Ascent</title>
+    
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="css/core.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <!-- Module CSS (loaded dynamically based on active modules) -->
+    <link rel="stylesheet" href="css/modules/reading.css">
+    <link rel="stylesheet" href="css/modules/marginalia.css">
+    <link rel="stylesheet" href="css/modules/navigation.css">
+    
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="css/themes/default.css">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="js/core/app.js" as="script">
+    <link rel="preload" href="data/content.json" as="fetch" crossorigin>
+</head>
+<body class="app-loading">
+    <!-- App Loading Screen -->
+    <div id="app-loader" class="app-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <p class="loader-text">Φόρτωση AI Orchestrator's Ascent...</p>
+        </div>
+    </div>
+
+    <!-- Global Canvas Elements (for marginalia/scribbling) -->
+    <svg id="marginalia-svg" class="marginalia-canvas" style="position: absolute; top: 0; left: 0; pointer-events: none; z-index: 1000; overflow: visible;">
+        <!-- SVG content will be dynamically generated -->
+    </svg>
+    <canvas id="fullscreen-canvas" class="fullscreen-canvas" style="position: absolute; top: 0; left: 0; pointer-events: none; z-index: 999; display: none;"></canvas>
+
+    <!-- Main App Container -->
+    <div id="app" class="app-container">
+        <!-- Global Navigation -->
+        <nav id="global-nav" class="global-nav">
+            <!-- Navigation content will be dynamically generated -->
+        </nav>
+
+        <!-- Main Content Area -->
+        <main id="main-content" class="main-content">
+            <!-- Content will be dynamically loaded here -->
+        </main>
+
+        <!-- Global UI Elements -->
+        <div id="global-ui" class="global-ui">
+            <!-- Theme switcher, user avatar, progress indicators, etc. -->
+        </div>
+
+        <!-- Module Containers -->
+        <div id="module-containers" class="module-containers">
+            <!-- Reading Module Container -->
+            <div id="reading-module" class="module-container" data-module="reading">
+                <!-- Reading-specific UI elements -->
+            </div>
+
+            <!-- Marginalia Module Container -->
+            <div id="marginalia-module" class="module-container" data-module="marginalia">
+                <!-- Marginalia-specific UI elements -->
+            </div>
+
+            <!-- AI-Q Module Container -->
+            <div id="aiq-module" class="module-container" data-module="aiq">
+                <!-- AI-Q system UI elements -->
+            </div>
+
+            <!-- Future Module Containers (prepared for Blueprint features) -->
+            <div id="leaderboard-module" class="module-container" data-module="leaderboard" style="display: none;">
+                <!-- Leaderboard system placeholder -->
+            </div>
+
+            <div id="avatar-module" class="module-container" data-module="avatar" style="display: none;">
+                <!-- Avatar system placeholder -->
+            </div>
+
+            <div id="creative-module" class="module-container" data-module="creative" style="display: none;">
+                <!-- Creative Pattern Engine placeholder -->
+            </div>
+
+            <div id="economy-module" class="module-container" data-module="economy" style="display: none;">
+                <!-- Economy system placeholder -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Boundary -->
+    <div id="error-boundary" class="error-boundary" style="display: none;">
+        <div class="error-content">
+            <h2>Κάτι πήγε στραβά</h2>
+            <p>Παρουσιάστηκε ένα σφάλμα κατά τη φόρτωση της εφαρμογής.</p>
+            <button onclick="location.reload()" class="error-retry-btn">Επανάληψη</button>
+        </div>
+    </div>
+
+    <!-- Embedded Content Data for file:// protocol compatibility -->
+    <script>
+        window.EMBEDDED_CONTENT_DATA = {
+            "metadata": {
+                "title": "AI Orchestrator's Ascent",
+                "subtitle": "Ο Οδηγός του Έξυπνου Αρχάρια",
+                "author": "AI Orchestrator Team",
+                "version": "1.0.0",
+                "language": "el",
+                "totalChapters": 1
+            },
+            "chapters": [
+                {
+                    "id": "demo-chapter",
+                    "title": "Δοκιμαστικό Κεφάλαιο",
+                    "subtitle": "Εισαγωγή στο νέο σύστημα",
+                    "level": "Beginner",
+                    "estimatedTime": "10 λεπτά",
+                    "content": {
+                        "introduction": "Καλώς ήρθατε στο νέο modular σύστημα του AI Orchestrator's Ascent!",
+                        "sections": [
+                            {
+                                "id": "section-1",
+                                "title": "Νέα Αρχιτεκτονική",
+                                "content": "Αυτό το σύστημα έχει ανασχεδιαστεί από την αρχή με modular αρχιτεκτονική που υποστηρίζει όλες τις υπάρχουσες λειτουργίες και προετοιμάζει το έδαφος για μελλοντικές επεκτάσεις.",
+                                "type": "text"
+                            },
+                            {
+                                "id": "section-2", 
+                                "title": "Διαδραστικές Λειτουργίες",
+                                "content": "Το σύστημα περιλαμβάνει:\\n- Interactive Reading με progress tracking\\n- SVG Marginalia για σημειώσεις\\n- AI-Q progression system\\n- Responsive design για όλες τις συσκευές",
+                                "type": "text"
+                            },
+                            {
+                                "id": "exercise-1",
+                                "title": "Δοκιμαστική Άσκηση",
+                                "content": "Αυτή είναι μια δοκιμαστική άσκηση για να δείτε πώς λειτουργεί το σύστημα.",
+                                "type": "exercise",
+                                "difficulty": "easy",
+                                "expectedTime": 300000
+                            }
+                        ]
+                    },
+                    "exercises": [
+                        {
+                            "id": "exercise-1",
+                            "title": "Πρώτη Άσκηση",
+                            "description": "Δοκιμάστε τις βασικές λειτουργίες",
+                            "type": "interactive",
+                            "difficulty": "easy"
+                        }
+                    ],
+                    "navigation": {
+                        "previous": null,
+                        "next": null
+                    }
+                }
+            ]
+        };
+    </script>
+
+    <!-- Core JavaScript - Load in correct order -->
+    <script src="js/core/event-manager.js"></script>
+    <script src="js/core/content-manager.js"></script>
+    <script src="js/core/responsive-manager.js"></script>
+    <script src="js/core/module-loader.js"></script>
+    <script src="js/core/app.js"></script>
+
+    <!-- Module JavaScript (loaded dynamically) -->
+    <script src="js/modules/reading.js" defer></script>
+    <script src="js/modules/marginalia.js" defer></script>
+    <script src="js/modules/navigation.js" defer></script>
+    <script src="js/modules/aiq.js" defer></script>
+
+    <!-- App Initialization -->
+    <script>
+        // Wait for all scripts to load before initializing
+        let scriptsLoaded = 0;
+        const totalScripts = 5; // Number of core scripts
+        
+        function checkScriptsLoaded() {
+            scriptsLoaded++;
+            console.log(`Scripts loaded: ${scriptsLoaded}/${totalScripts}`);
+            
+            if (scriptsLoaded >= totalScripts) {
+                initializeApp();
+            }
+        }
+        
+        function initializeApp() {
+            console.log('All scripts loaded, initializing app...');
+            console.log('Available classes:', {
+                ContentManager: typeof ContentManager,
+                EventManager: typeof EventManager,
+                ResponsiveManager: typeof ResponsiveManager,
+                ModuleLoader: typeof ModuleLoader,
+                AIOrchestrator: typeof AIOrchestrator
+            });
+            
+            if (window.AIOrchestrator) {
+                window.AIOrchestrator.init().catch(error => {
+                    console.error('Failed to initialize application:', error);
+                    document.getElementById('loading-screen').style.display = 'none';
+                    document.getElementById('error-boundary').style.display = 'block';
+                });
+            } else {
+                console.error('AIOrchestrator not found');
+                document.getElementById('loading-screen').style.display = 'none';
+                document.getElementById('error-boundary').style.display = 'block';
+            }
+        }
+        
+        // Initialize when DOM is ready and all scripts are loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, waiting for scripts...');
+            // If scripts are already loaded, initialize immediately
+            if (scriptsLoaded >= totalScripts) {
+                initializeApp();
+            }
+        });
+
+        // Global error handling
+        window.addEventListener('error', function(event) {
+            console.error('Global error:', event.error);
+            // Could implement error reporting here
+        });
+
+        window.addEventListener('unhandledrejection', function(event) {
+            console.error('Unhandled promise rejection:', event.reason);
+            // Could implement error reporting here
+        });
+    </script>
+    
+    <!-- Script loading callbacks -->
+    <script>
+        // Add onload callbacks to track script loading
+        document.addEventListener('DOMContentLoaded', function() {
+            const scripts = document.querySelectorAll('script[src*="js/core/"]');
+            scripts.forEach(script => {
+                script.onload = checkScriptsLoaded;
+                script.onerror = function() {
+                    console.error('Failed to load script:', script.src);
+                };
+            });
+        });
+    </script>
+</body>
+</html>
+
